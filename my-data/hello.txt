@@ -1,0 +1,4 @@
+hello from inside shell:
+
+written from outside1:wq
+
