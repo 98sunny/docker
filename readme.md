@@ -147,6 +147,60 @@ The FROM... RUN... stuff is part of what is called a Dockerfile that is used to 
 ``` docker run -it --rm sunny-ubuntu-image ```
 Now, whatever files we create inside this will not perish as it in not on persistant volume.
 
+### To compare image and the the container which we created
+```
+docker diff sunnycontainer
+```
+# Ways to Build Image
+## Creating an image of the container
+```
+#Syntax:
+docker commit name_of_the_container image_name_which_we_want_to_keep
+
+docker commit sunnycontainer image_sunnyContainer
+```
+
+### Create a container using the image we created
+```
+docker run -it --name new_container image_sunnyContainer /bin/bash
+```
+
+## Creating an image using Dockerfile
+Dockerfile is a text file and it contains a set of information.
+Automation of Docker image creation.
+
+### Docker components
+1. FROM- For base image, this command is at the top of the Dockerfile.
+2. RUN- To execute  commands, it will create a layer image. It helps to run whetever we write in the Dockerfile.
+3. MAINTAINER- Author/Owner/Description 
+4. COPY- Copy files from the local system(docker VM). We need to provide source, destination. We can't download file from internet.
+5. ADD- Similar to copy, it provides a feature to copy from the Internet, also extract file at docker image side.
+6. EXPOSE- To expose ports, such as 8080 for tomcat, springboot app, nginx etc.
+7. WORKDIR- To set working directory for a container.
+8. CMD- Execute commands but during the  container creation.
+9. ENTRYPOINT- Similar to CMD, but has higher priority over CMD. First command will be executed by ENTRYPOINT only.
+10. ENV- Environment variables.
+11. ARG- ARG variables are a type of Docker environment variable that can be used to pass build-time variables into your Dockerfile.
+
+### Steps to Creating a container using Dockerfile
+1. Create a Dockerfile
+2. Add the configuration to it
+3. Run build -t myimage .
+4. docker ps -a
+5. docker images
+6. Create a container:
+   1. Use command-> docker run --it --name myContainer myimage /bin/bash
+   
+### Creating a sample Dockerfile
+
+```
+FROM ubuntu
+WORKDIR /tmp
+RUN echo "This is a sample container created from Dockerfile">/tmp/sunny.txt
+ENV myname SunnySingh
+COPY testfile1 /tmp
+ADD test.tar.gz /tmp
+```
 
 
 ### Volume Mounts
@@ -202,7 +256,7 @@ docker run  -it --rm --mount type=bind,source="${PWD}"/my-data,destination=/my-d
 # Again, there is a similar (but shorter) syntax using -v which accomplishes the same
 docker run  -it --rm -v ${PWD}/my-data:/my-data ubuntu:22.04
 
-echo "Hello from the container written by Sunny from inside container!" > /my-data/hello.txt
+echo "Hello from the container written by Sunny from inside containerhiit!" > /my-data/hello.txt
 
 # You should also be able to see the hello.txt file on your host system
 cat my-data/hello.txt
