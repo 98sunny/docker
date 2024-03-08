@@ -1,8 +1,8 @@
-## Docker
-helps create an environement which is as close to a production environment.
+# Docker
+Helps create an environement which is as close to a production environment.
 
 
-## Why containers?
+# Why containers?
 Create dev environment is as easy as ---> "run docker compose up"
 
 ## What is a Container?
@@ -72,9 +72,10 @@ Application B use up to 100MB memory.
 ### Union Mount FileSystems(overlayfs)
 Allows files and directories of separate file systems, known as branches
 
-## Docker architecture
+# Docker architecture
 ![Docker architecture](./images/docker-architecture.jpg)
 
+# Commands
 ## Running first container
 docker run docker/whalesay cowsay "Hey Hiring Team, Sunny is a good DevOps engineer who likes new technologies"
 
@@ -165,7 +166,7 @@ docker commit sunnycontainer image_sunnyContainer
 docker run -it --name new_container image_sunnyContainer /bin/bash
 ```
 
-## Creating an image using Dockerfile
+### Creating an image using Dockerfile
 Dockerfile is a text file and it contains a set of information.
 Automation of Docker image creation.
 
@@ -201,14 +202,55 @@ ENV myname SunnySingh
 COPY testfile1 /tmp
 ADD test.tar.gz /tmp
 ```
+# Docker Volume
+Docker Volume is a directory in which we could store data and make it persistant and also share it with other containers.
+- Volume will persist even if we delete the container.
+- It allows us to share nything from host to container.
+- First we have to declare a directory as a Volume and then share the volume with containers.
+- Volume will be created in one container and then share it with others.We can declare a directory as a Volume ONLY WHILE CREATING CONTAINER.
+- We CAN'T create a volume from a existing container. 
+- We can share one volume across any number of containers. 
+- Volume will not be included when we update an image.
+- We can map volume in two ways:
+  - Container <-> Container
+  - Host <-> Containe
+
+## Benefits of Docker Volume
+1. Decoupling congtainer from storage.
+2. Share volume among different containers.
+3. Attach Volume to containers.
+4. On deleting container volume does not delete.
+
+## Creating a Volume from Dockerfile
+
+1. Create a Dockerfile and write:
+   ```
+   FROM ubuntu
+   VOLUME ["/myVolume1"]
+   ```
+2. Create image from this Dockerfile:
+   ```
+   ## -t is for tag name and . is for present directory
+   docker build -t my_image .
+   ```
+3. Now, create a container from the image and run:
+   ```
+   docker run -it --name container1 myimage /bin/bash
+   ```
+4. Share volume with another container: Container <-> Container
+   ```
+   docker run -it --name container2 privileged=true --volume-from container1 ubuntu /bin/bash
+   ```
+
+ 
 
 
-### Volume Mounts
+## Volume Mounts
 We can use volumes and mounts to safely persist the data. 
 docker run -it --rm --mount source=my-volume,destination=/my-data/ ubuntu:22.04
 
 ``` 
-## creating a volume
+# creating a volume
 docker volume create my-volume 
 ```
 
