@@ -239,11 +239,34 @@ Docker Volume is a directory in which we could store data and make it persistant
    ```
 4. Share volume with another container: Container <-> Container
    ```
-   docker run -it --name container2 privileged=true --volume-from container1 ubuntu /bin/bash
+   docker run -it --name container2 privileged=true --volumes-from container1 ubuntu /bin/bash
    ```
 
- 
+## Creating Volume using command
+docker run -it --name container3 -v /volume2 ubuntu /bin/bash
 
+## Volume(HOST<--->CONTAINER)
+'''
+#Basically we are saying whetever is put in the ec2-user directory will be mapped to sunny named volume in the container and vice versa
+docker run -it --name hostContainer -v /home/ec2-user:/sunny --privileged=true ubuntu /bin/bash
+'''
+
+## Some other commands:
+```
+docker volume ls
+
+docker volume create <Volume-name>
+
+docker volume rm <Volume-name>
+
+#remove all ununsed volumes
+docker volume prune
+
+docker inspect <Volume-name>
+
+docker inspect <container-name>
+
+```
 
 ## Volume Mounts
 We can use volumes and mounts to safely persist the data. 
@@ -304,6 +327,27 @@ echo "Hello from the container written by Sunny from inside containerhiit!" > /m
 cat my-data/hello.txt
 exit
 ```
+
+
+# Docker Port Expose
+Container does have any I.P. Adresses.
+To access anything from the Internet, the way to do so is to use an IP.
+We have logical ports: 0-65535
+Logical ports-> Ports which could be assigned to do a particular tasks/access and by default are open.
+
+## Steps to expose port
+
+1. sudo su
+2. service docker start
+                          host container:container port
+3. docker run -td --name techserver - 80:80 ubuntu 
+4. docker ps
+5. docker port techserver--> This command tells which all ports are open and available
+   1. Output: 80/TCP--->0.0.0.0/80
+6. docker exec
+
+Difference between -p(publish) and expose
+-p allows the port to be exposed to the whole world. While, expose only allows other container in the same docker service.
 
 
 
