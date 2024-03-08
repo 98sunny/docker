@@ -349,6 +349,14 @@ Logical ports-> Ports which could be assigned to do a particular tasks/access an
 Difference between -p(publish) and expose
 -p allows the port to be exposed to the whole world. While, expose only allows other container in the same docker service.
 
+## 3 options for ports
+1. Neither specify expose nor -p
+2. Only spcify expose.
+3. specify expose and -p
+
+
+
+
 
 
 
