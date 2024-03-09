@@ -355,6 +355,32 @@ Difference between -p(publish) and expose
 3. specify expose and -p
 
 
+# How to push Docker image in DockerHub
+- sudo su
+- yum update -y
+- yum install docker -y
+- service docker start
+- docker run -it ubuntu /bin/bash
+- Now create some files inside container and create image of this container
+- docker commit container1 
+- Now, create account on hub.docker.com
+- Go to EC2 instance:
+  - docker login
+  - Enter username and password
+- Now, give tag to your image.
+  - docker tag image1 dockerId/newImage
+  - docker push dockerId/newImage
+- Now, you can see this image in Docker hub account. Now, create one instance in New York Region and docker pull image from hub
+  - docker pull dockerid/newImage
+  - docker run -it --name myNewContainer dockerid/newImage /bin/bash
+
+## Some extra important comands
+1. Stop all containers: docker stop $(docker ps -a -q)
+2. Delete all stopped containers: docker rm $(docker ps -a -q)
+3. Delete all images: docker rmi -f $(docker images -q)
+
+
+
 
 
 
